@@ -25,6 +25,9 @@ abstract class AbstractFilter
     /** @var string */
     protected $operator;
 
+    /** @var callable */
+    protected $criteria;
+
     /**
      * @param array $options
      */
@@ -44,11 +47,14 @@ abstract class AbstractFilter
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'template_html' => null,
-            'template_js' => null,
-            'operator' => 'CONTAINS',
-        ]);
+        $resolver
+            ->setDefaults([
+                'template_html' => null,
+                'template_js' => null,
+                'operator' => 'CONTAINS',
+                'criteria' => null,
+            ])
+            ->setAllowedTypes('criteria', ['null', 'callable']);
 
         return $this;
     }
@@ -75,6 +81,14 @@ abstract class AbstractFilter
     public function getOperator()
     {
         return $this->operator;
+    }
+
+    /**
+     * @return callable|null
+     */
+    public function getCriteria()
+    {
+        return $this->criteria;
     }
 
     /**
