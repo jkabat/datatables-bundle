@@ -59,6 +59,14 @@
                                 dt
                                     .order(merged.order)
                                     .search(merged.search.search)
+                                    .columns().indexes().each(function(index) {
+                                        const value = merged.columns[index].search.search;
+                                        if (value) {
+                                            dt.column(index).search(value);
+                                            const el = `[data-search-column-index='${index}']`;
+                                            $('#'+config.name).find(el).val(value);
+                                        }
+                                    })
                                     .page.len(merged.length)
                                     .page(merged.start / merged.length)
                                     .draw(false);
